@@ -2,14 +2,37 @@ package com.example.mobileproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.ai.FirebaseAI;
+import com.google.firebase.ai.GenerativeModel;
+import com.google.firebase.ai.java.GenerativeModelFutures;
+import com.google.firebase.ai.type.Content;
+import com.google.firebase.ai.type.GenerateContentResponse;
+import com.google.firebase.ai.type.GenerativeBackend;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import kotlin.Result;
+import kotlin.coroutines.Continuation;
+import kotlin.coroutines.CoroutineContext;
 
 public class RecepieActivity extends AppCompatActivity {
+
+    TextView recipeResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +44,7 @@ public class RecepieActivity extends AppCompatActivity {
             return insets;
         });
 
+        recipeResult = findViewById(R.id.recipeDisplay);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.recepie);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -43,5 +67,31 @@ public class RecepieActivity extends AppCompatActivity {
             }
             return false;
         });
+
+
+        // Initialize the Gemini Developer API backend service
+        // Create a `GenerativeModel` instance with a model that supports your use case
+        GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI()).generativeModel("gemini-2.5-flash");
+
+        // Use the GenerativeModelFutures Java compatibility layer which offers
+        // support for ListenableFuture and Publisher APIs
+        GenerativeModelFutures model = GenerativeModelFutures.from(ai);
+        Executor executor = Executors.newSingleThreadExecutor();
+        Content prompt = new Content.Builder().addText("Write a story about a magic backpack.").build();
+        System.out.println("test");
+        ListenableFuture<GenerateContentResponse> response = model.generateContent(prompt);
+        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+            @Override
+            public void onSuccess(GenerateContentResponse result) {
+                String resultText = result.getText();
+                System.out.print(resultText);
+                recipeResult.setText(resultText);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        }, executor);
     }
 }
