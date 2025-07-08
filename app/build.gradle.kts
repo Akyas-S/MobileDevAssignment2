@@ -37,7 +37,16 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.play.services.mlkit.barcode.scanning)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("androidx.camera:camera-camera2:1.3.0")
+    implementation("androidx.camera:camera-lifecycle:1.3.0")
+    implementation("androidx.camera:camera-view:1.3.0")
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+
+
 }
