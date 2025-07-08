@@ -1,6 +1,7 @@
 package com.example.mobileproject;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -25,9 +26,6 @@ import com.google.firebase.ai.type.GenerativeBackend;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import kotlin.Result;
-import kotlin.coroutines.Continuation;
-import kotlin.coroutines.CoroutineContext;
 
 public class RecepieActivity extends AppCompatActivity {
 
@@ -76,22 +74,24 @@ public class RecepieActivity extends AppCompatActivity {
         // Use the GenerativeModelFutures Java compatibility layer which offers
         // support for ListenableFuture and Publisher APIs
         GenerativeModelFutures model = GenerativeModelFutures.from(ai);
-        Executor executor = Executors.newSingleThreadExecutor();
-        Content prompt = new Content.Builder().addText("Write a story about a magic backpack.").build();
+        //Executor executor = Executors.newSingleThreadExecutor();
+        Content prompt = new Content.Builder().addText("Tell a joke about computers").build();
         System.out.println("test");
         ListenableFuture<GenerateContentResponse> response = model.generateContent(prompt);
-        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
-            @Override
-            public void onSuccess(GenerateContentResponse result) {
-                String resultText = result.getText();
-                System.out.print(resultText);
-                recipeResult.setText(resultText);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+                @Override
+                public void onSuccess(GenerateContentResponse result) {
+                    String resultText = result.getText();
+                    System.out.print(resultText);
+                    recipeResult.setText(resultText);
+                }
 
-            @Override
-            public void onFailure(Throwable t) {
-                t.printStackTrace();
-            }
-        }, executor);
+                @Override
+                public void onFailure(Throwable t) {
+                    t.printStackTrace();
+                }
+            }, this.getMainExecutor());
+        }
     }
 }
