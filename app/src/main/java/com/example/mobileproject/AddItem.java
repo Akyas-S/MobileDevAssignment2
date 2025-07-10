@@ -1,9 +1,11 @@
 package com.example.mobileproject;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ import com.google.mlkit.vision.common.InputImage;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -84,6 +87,20 @@ public class AddItem extends AppCompatActivity {
             }
             return false;
         });
+
+        // Set up the expiry date EditText with a DatePickerDialog
+        EditText expiryDateEditText = findViewById(R.id.idExpiryDate);
+        expiryDateEditText.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePicker = new DatePickerDialog(this, (view, y, m, d) -> {
+                expiryDateEditText.setText(String.format("%04d%02d%02d", y, m + 1, d));
+            }, year, month, day);
+            datePicker.show();
+        });
+
 
         // Camera permission check
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -146,6 +163,12 @@ public class AddItem extends AppCompatActivity {
                 @Override
                 public void onProductInfo(String barcode, String name, String brand, String categories) {
                     TextView textView = findViewById(R.id.textView);
+                    EditText nameEditText = findViewById(R.id.idEdtItemName);
+                    EditText barcodeEditText = findViewById(R.id.idEdtBarcode);
+                    EditText categoryEditText = findViewById(R.id.idEdtCategory);
+                    nameEditText.setText(name);
+                    barcodeEditText.setText(barcode);
+                    categoryEditText.setText(categories);
                     textView.setText("Barcode: " + barcode + "\nProduct: " + name + "\nBrand: " + brand + "\nCategories: " + categories);
                 }
                 @Override

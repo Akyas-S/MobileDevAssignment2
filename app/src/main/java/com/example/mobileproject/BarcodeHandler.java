@@ -42,7 +42,10 @@ public class BarcodeHandler {
                         JSONObject product = json.getJSONObject("product");
                         String name = product.optString("product_name", "N/A");
                         String brand = product.optString("brands", "N/A");
-                        String categories = product.optString("categories", "N/A");
+                        String categories_temp = product.optString("categories", "N/A");
+                        String[] categoryArray = categories_temp.split(",");
+                        String categories = categoryArray[0];
+
                         mainHandler.post(() -> callback.onProductInfo(barcode, name, brand, categories));
                     } else {
                         mainHandler.post(() -> callback.onProductNotFound(barcode));
