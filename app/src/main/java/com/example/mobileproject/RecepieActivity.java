@@ -1,18 +1,16 @@
 package com.example.mobileproject;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -22,14 +20,14 @@ import com.google.firebase.ai.java.GenerativeModelFutures;
 import com.google.firebase.ai.type.Content;
 import com.google.firebase.ai.type.GenerateContentResponse;
 import com.google.firebase.ai.type.GenerativeBackend;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class RecepieActivity extends AppCompatActivity {
 
-    TextView recipeResult;
+    private TextView recipeText;
+    private MaterialButton generateButton;
+    private DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,22 @@ public class RecepieActivity extends AppCompatActivity {
             return insets;
         });
 
-        recipeResult = findViewById(R.id.recipeDisplay);
+        recipeText = findViewById(R.id.recipeText);
+        generateButton = findViewById(R.id.generateButton);
+        dbHandler = new DBHandler(this);
+
+        recipeText.setText("Click 'Generate Recipe' to get a recipe suggestion based on your ingredients.");
+
+        generateButton.setOnClickListener(v -> {
+            generateButton.setEnabled(false);
+            generateButton.setText("Generating...");
+            generateRecipe();
+        });
+
+        setupBottomNavigation();
+    }
+
+    private void setupBottomNavigation() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.recepie);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -65,33 +78,73 @@ public class RecepieActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
 
+    private void generateRecipe() {
+        ArrayList<ItemModel> items = dbHandler.readItems();
 
-        // Initialize the Gemini Developer API backend service
-        // Create a `GenerativeModel` instance with a model that supports your use case
-        GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI()).generativeModel("gemini-2.5-flash");
+        if (items.isEmpty()) {
+            recipeText.setText("No ingredients found in your inventory.\n\nAdd some items first to get recipe suggestions!");
+            generateButton.setEnabled(true);
+            generateButton.setText("Generate Recipe");
+            return;
+        }
 
-        // Use the GenerativeModelFutures Java compatibility layer which offers
-        // support for ListenableFuture and Publisher APIs
-        GenerativeModelFutures model = GenerativeModelFutures.from(ai);
-        //Executor executor = Executors.newSingleThreadExecutor();
-        Content prompt = new Content.Builder().addText("Tell a joke about computers").build();
-        System.out.println("test");
-        ListenableFuture<GenerateContentResponse> response = model.generateContent(prompt);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+        recipeText.setText("Looking for the perfect recipe using your ingredients...\n\nThis might take a moment.");
+        String ingredients = items.stream()
+                .map(ItemModel::getItemName)
+                .collect(Collectors.joining(", "));
+
+        String promptText = String.format(
+            "I have these ingredients: %s\n\n" +
+            "Create a delicious recipe using these ingredients. " +
+            "Format the response exactly like this:\n\n" +
+            "🍳 [Recipe Name]\n\n" +
+            "Ingredients Needed:\n" +
+            "• [ingredient 1 with quantity]\n" +
+            "• [ingredient 2 with quantity]\n\n" +
+            "Instructions:\n" +
+            "1. [First step]\n" +
+            "2. [Second step]\n" +
+            "[etc...]\n\n" +
+            "⏱️ Cooking Time: [time]\n" +
+            "👥 Serves: [number]\n\n" +
+            "Keep it practical and use mostly what's available.",
+            ingredients
+        );
+
+        GenerativeModel ai = FirebaseAI.getInstance(GenerativeBackend.googleAI())
+                .generativeModel("gemini-2.5-flash");
+
+        Content prompt = new Content.Builder().addText(promptText).build();
+        ListenableFuture<GenerateContentResponse> future = GenerativeModelFutures.from(ai).generateContent(prompt);
+
+        Futures.addCallback(future,
+            new FutureCallback<GenerateContentResponse>() {
                 @Override
-                public void onSuccess(GenerateContentResponse result) {
-                    String resultText = result.getText();
-                    System.out.print(resultText);
-                    recipeResult.setText(resultText);
+                public void onSuccess(GenerateContentResponse response) {
+                    runOnUiThread(() -> {
+                        String formattedText = response.getText()
+                            .replace("•", "\n•")
+                            .replace("\n\n\n", "\n\n")
+                            .trim();
+                        recipeText.setText(formattedText);
+                        generateButton.setEnabled(true);
+                        generateButton.setText("Generate New Recipe");
+                    });
                 }
 
                 @Override
                 public void onFailure(Throwable t) {
-                    t.printStackTrace();
+                    runOnUiThread(() -> {
+                        recipeText.setText("⚠️ Couldn't generate recipe\n\n" +
+                            "Please check your internet connection and try again.");
+                        generateButton.setEnabled(true);
+                        generateButton.setText("Try Again");
+                    });
                 }
-            }, this.getMainExecutor());
-        }
+            },
+            ContextCompat.getMainExecutor(this)
+        );
     }
 }
