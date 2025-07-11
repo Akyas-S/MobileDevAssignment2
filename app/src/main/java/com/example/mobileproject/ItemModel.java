@@ -1,37 +1,74 @@
 package com.example.mobileproject;
 
 public class ItemModel {
-    private String name;
-    private String barcode;
-    private String category;
-    private int quantity;
-    private String expiry;
 
-    public ItemModel(String name, String barcode, String category, int quantity, String expiry) {
-        this.name = name;
-        this.barcode = barcode;
-        this.category = category;
-        this.quantity = quantity;
-        this.expiry = expiry;
+    private String itemName;
+    private String itemBarcode;
+    private String itemCategory;
+    private Integer itemQuantity;
+    private String itemExpiry;
+    private int itemId;
+
+    // creating getter and setter methods
+    public String getItemName()
+    { return itemName; }
+    public void setItemName (String itemName)
+    {
+        this.itemName = itemName;
     }
 
-    public String getName() {
-        return name;
+    public String getItemBarcode()
+    {
+        return itemBarcode;
+    }
+    public void setItemBarcode(String itemBarcode)
+    {
+        this.itemBarcode = itemBarcode;
     }
 
-    public String getBarcode() {
-        return barcode;
+    public String getItemCategory() { return itemCategory; }
+
+    public void setItemCategory(String itemCategory)
+    {
+        this.itemCategory = itemCategory;
     }
 
-    public String getCategory() {
-        return category;
+    public Integer getItemQuantity()
+    {
+        return itemQuantity;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void setItemQuantity(Integer itemQuantity)
+    {
+        this.itemQuantity = itemQuantity;
     }
 
-    public String getExpiry() {
-        return expiry;
+    public String getItemExpiry()
+    {
+        return itemExpiry;
+    }
+
+    public void setItemExpiry(String itemExpiry)
+    {
+        this.itemExpiry = itemExpiry;
+    }
+
+    public int getItemId() { return itemId; }
+
+    public void setItemId(int itemId) { this.itemId = itemId; }
+
+    // constructor
+    public ItemModel(String itemName,
+                     String itemBarcode,
+                     String itemCategory,
+                     Integer itemQuantity,
+                     String itemExpiry)
+    {
+        this.itemName = itemName;
+        this.itemBarcode = itemBarcode;
+        this.itemCategory = itemCategory;
+        this.itemQuantity = itemQuantity;
+        this.itemExpiry = itemExpiry;
     }
 }
+
