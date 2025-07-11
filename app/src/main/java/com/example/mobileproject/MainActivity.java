@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshData() {
+        dbHandler.moveExpiredItemsToWaste();
         itemModelArrayList.clear();
         itemModelArrayList.addAll(dbHandler.readItems());
         itemRVAdapter.notifyDataSetChanged();

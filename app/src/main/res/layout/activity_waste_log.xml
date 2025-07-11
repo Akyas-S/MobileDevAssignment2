@@ -5,17 +5,42 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_gray"
     tools:context=".WasteLogActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/wasteLogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Waste Log"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wasteLogTitle">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/wasteRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp"
+            android:scrollbars="vertical" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

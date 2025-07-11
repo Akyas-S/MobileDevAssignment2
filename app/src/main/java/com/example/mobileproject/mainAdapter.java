@@ -23,16 +23,18 @@ import java.util.ArrayList;
 public class mainAdapter extends RecyclerView.Adapter<mainAdapter.ViewHolder> {
     private ArrayList<ItemModel> ItemModelArrayList;
     private Context context;
+    private DBHandler dbHandler;
 
     public mainAdapter(ArrayList<ItemModel> ItemModelArrayList, Context context) {
         this.ItemModelArrayList = ItemModelArrayList;
         this.context = context;
+        this.dbHandler = new DBHandler(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.userentry, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_entry, parent, false);
         return new ViewHolder(view);
     }
 
@@ -75,6 +77,7 @@ public class mainAdapter extends RecyclerView.Adapter<mainAdapter.ViewHolder> {
                 .setTitle("Delete Item")
                 .setMessage("Are you sure you want to delete '" + itemName + "'?")
                 .setPositiveButton("Delete", (dialog, which) -> {
+                    dbHandler.deleteItem(itemName);
                     ItemModelArrayList.remove(position);
                     notifyItemRemoved(position);
                     Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();

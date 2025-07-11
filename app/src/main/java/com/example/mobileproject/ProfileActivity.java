@@ -73,10 +73,10 @@ public class ProfileActivity extends AppCompatActivity {
     private void showDeleteConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Delete All Items")
-                .setMessage("Are you sure you want to delete all items? This action cannot be undone.")
+                .setMessage("Are you sure you want to delete all items and waste log entries? This action cannot be undone.")
                 .setPositiveButton("Delete", (dialog, which) -> {
                     dbHandler.deleteAllItems();
-                    Toast.makeText(this, "All items deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "All items and waste log cleared", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
