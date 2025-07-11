@@ -145,6 +145,31 @@ public class DBHandler extends SQLiteOpenHelper {
         return wasteItems;
     }
 
+    public void insertDummyData() {
+        if (readItems().isEmpty()) {
+
+            addNewItem("Fresh Apples", "11122233301", "Fruits", 5, "2025-12-25");
+            addNewItem("Whole Milk", "11122233302", "Dairy", 2, "2025-07-15");
+            addNewItem("Sourdough Bread", "11122233303", "Bakery", 1, "2025-07-10");
+            addNewItem("Chicken Breast", "11122233304", "Meat", 2, "2025-07-08");
+            addNewItem("Orange Juice", "11122233305", "Beverages", 1, "2025-01-20");
+            addNewItem("Yogurt", "11122233306", "Dairy", 3, "2025-06-20");
+            addNewItem("Ground Beef", "11122233307", "Meat", 1, "2025-06-15");
+            addNewItem("Fresh Tomatoes", "11122233308", "Vegetables", 4, "2025-06-12");
+            addNewItem("Cheddar Cheese", "11122233309", "Dairy", 1, "2025-08-30");
+            addNewItem("Frozen Pizza", "11122233310", "Frozen", 2, "2025-09-15");
+            addNewItem("Pasta Sauce", "11122233311", "Pantry", 2, "2025-10-20");
+            addNewItem("Rice", "11122233312", "Grains", 1, "2025-11-30");
+            addNewItem("Olive Oil", "11122233313", "Pantry", 1, "2025-09-15");
+            addNewItem("Canned Beans", "11122233314", "Canned", 3, "2025-08-20");
+            addNewItem("Honey", "11122233315", "Pantry", 1, "2025-12-31");
+        }
+    }
+    public void deleteAllItems() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME_1, null, null);
+        db.close();
+    }
 
 
 }

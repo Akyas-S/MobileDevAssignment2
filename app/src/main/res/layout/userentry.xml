@@ -1,88 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="12dp"
-    app:cardCornerRadius="16dp"
-    android:layout_margin="16dp"
-    android:backgroundTint="#efefef">
+    android:layout_margin="10dp"
+    android:elevation="20dp"
+    android:outlineSpotShadowColor="@color/white"
+    android:outlineAmbientShadowColor="@color/white"
+    app:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
+        android:background="@drawable/gradient">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@android:color/transparent"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            app:icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="16dp"
+            app:iconTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:minWidth="0dp"
+            android:minHeight="0dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/idTVItemName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name: "
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                style="bold"/>
+                android:layout_marginEnd="28dp"
+                android:padding="3dp"
+                android:text="Item Name:"
+                android:textColor="#FFFFFF" />
 
             <TextView
-                android:id="@+id/textname"
-                android:layout_width="wrap_content"
+                android:id="@+id/idTVCategory"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                style="bold"/>
+                android:padding="3dp"
+                android:text="Category:"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/idTVQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="Quantity:"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/idTVExpiryDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="Expiry Date:"
+                android:textColor="#FFFFFF" />
+
+            <ProgressBar
+                android:id="@+id/expiryProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:progressTint="#15F595"
+                android:progressBackgroundTint="#FFFFFF" />
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quantity: "
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                style="bold"/>
-
-            <TextView
-                android:id="@+id/textemail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                style="bold"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Expiry Date: "
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                style="bold"/>
-
-            <TextView
-                android:id="@+id/textage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                style="bold"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

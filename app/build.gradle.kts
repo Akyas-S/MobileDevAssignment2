@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.play.services.mlkit.barcode.scanning)
     implementation(libs.recyclerview)
     implementation(libs.media3.common)
+    implementation(libs.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

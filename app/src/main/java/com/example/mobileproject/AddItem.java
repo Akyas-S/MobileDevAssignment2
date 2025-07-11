@@ -67,6 +67,7 @@ public class AddItem extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        dbHandler = new DBHandler(this);
 
         EditText nameEditText = findViewById(R.id.idEdtItemName);
         EditText barcodeEditText = findViewById(R.id.idEdtBarcode);
@@ -106,7 +107,7 @@ public class AddItem extends AppCompatActivity {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             DatePickerDialog datePicker = new DatePickerDialog(this, (view, y, m, d) -> {
-                expiryDateEditText.setText(String.format("%04d%02d%02d", y, m + 1, d));
+                expiryDateEditText.setText(String.format("%04d-%02d-%02d", y, m + 1, d));
             }, year, month, day);
             datePicker.show();
         });
@@ -122,7 +123,6 @@ public class AddItem extends AppCompatActivity {
         cameraExecutor = Executors.newSingleThreadExecutor();
         barcodeScanner = BarcodeScanning.getClient();
         barcodeHandler = new BarcodeHandler();
-        dbHandler = new DBHandler(this);
 
         // Inside onCreate(), after initializing dbHandle
 
@@ -148,6 +148,10 @@ public class AddItem extends AppCompatActivity {
 
             dbHandler.addNewItem(name, barcode, category, quantity, expiry);
             Toast.makeText(this, "Item added!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
 
             // Optionally clear fields or finish activity
             nameEditText.setText("");
