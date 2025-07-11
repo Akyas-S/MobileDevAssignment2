@@ -5,15 +5,46 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_gray"
     tools:context=".AddItem">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:outlineAmbientShadowColor="#15f595"
+        android:outlineSpotShadowColor="#15f595"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+                                    <androidx.camera.view.PreviewView
+                                        android:id="@+id/previewView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent" />
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="additem"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="275dp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -27,4 +58,110 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
+
+    <EditText
+        android:id="@+id/idEdtItemName"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/edittext_border"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter Item Name"
+        android:inputType="text"
+        android:text=""
+        android:textColorHint="#343535"
+        app:layout_constraintBottom_toTopOf="@+id/idEdtBarcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/idEdtBarcode"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/edittext_border"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter Barcode"
+        android:inputType="number"
+        android:text=""
+        android:textColorHint="#343535"
+        app:layout_constraintBottom_toTopOf="@+id/idEdtCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/idEdtQuantity"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/edittext_border"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter Quantity"
+        android:inputType="number"
+        android:text=""
+        android:textColorHint="#343535"
+        app:layout_constraintBottom_toTopOf="@+id/idExpiryDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/idEdtCategory"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/edittext_border"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter Category"
+        android:inputType="text"
+        android:text=""
+        android:textColorHint="#343535"
+        app:layout_constraintBottom_toTopOf="@+id/idEdtQuantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/idExpiryDate"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="180dp"
+        android:background="@drawable/edittext_border"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:gravity="center"
+        android:hint="Enter Expiry Date"
+        android:inputType="none"
+        android:text=""
+        android:textColorHint="#343535"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/idBtnAddItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="71dp"
+        android:backgroundTint="@color/primary_green"
+        android:paddingHorizontal="26dp"
+        android:paddingVertical="13dp"
+        android:text="Add Item"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
