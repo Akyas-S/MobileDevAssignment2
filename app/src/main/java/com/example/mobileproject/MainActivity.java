@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ItemModel> itemModelArrayList;
     private DBHandler dbHandler;
-    private mainAdapter adapter;
-    private RecyclerView recyclerView;
+    private mainAdapter itemRVAdapter;
+    private RecyclerView itemRV;
 
     private Button button;
 
@@ -37,16 +37,18 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        dbHandler = new DBHandler(this);
+        // initializing our all variables.
         itemModelArrayList = new ArrayList<>();
-
-        adapter = new mainAdapter(itemModelArrayList, this);
-        recyclerView = findViewById(R.id.recyclerView);
+        dbHandler = new DBHandler(this);
+        itemRVAdapter = new mainAdapter(itemModelArrayList, this);
+        itemRV = findViewById(R.id.recyclerView);
 
         itemModelArrayList = dbHandler.readItems();
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        itemRV.setLayoutManager(linearLayoutManager);
+
+        itemRV.setAdapter(itemRVAdapter);
 
 
 
