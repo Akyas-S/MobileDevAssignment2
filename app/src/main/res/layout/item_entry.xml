@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:elevation="20dp"
+    android:outlineSpotShadowColor="@color/white"
+    android:outlineAmbientShadowColor="@color/white"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@android:color/transparent"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            app:icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="16dp"
+            app:iconTint="@color/white"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:minWidth="0dp"
+            android:minHeight="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/idTVItemName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="28dp"
+                android:padding="3dp"
+                android:text="Item Name:"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/idTVCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="Category:"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/idTVQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="Quantity:"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/idTVExpiryDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="Expiry Date:"
+                android:textColor="#FFFFFF" />
+
+            <ProgressBar
+                android:id="@+id/expiryProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:progressTint="#15F595"
+                android:progressBackgroundTint="#FFFFFF" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

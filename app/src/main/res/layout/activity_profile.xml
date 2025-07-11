@@ -7,15 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addDummyDataButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#15F595"
+        android:text="Add Sample Data"
+        android:paddingHorizontal="26dp"
+        android:paddingVertical="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/deleteAllButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deleteAllButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#FF0000"
+        android:text="Delete All Items"
+        android:paddingHorizontal="26dp"
+        android:paddingVertical="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

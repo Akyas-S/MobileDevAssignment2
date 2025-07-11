@@ -8,8 +8,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.app.AlertDialog;
+import android.widget.Toast;
+import com.google.android.material.button.MaterialButton;
 
 public class ProfileActivity extends AppCompatActivity {
+    private DBHandler dbHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +25,14 @@ public class ProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        dbHandler = new DBHandler(this);
+
+        MaterialButton deleteAllButton = findViewById(R.id.deleteAllButton);
+        MaterialButton addDummyDataButton = findViewById(R.id.addDummyDataButton);
+
+        deleteAllButton.setOnClickListener(v -> showDeleteConfirmationDialog());
+        addDummyDataButton.setOnClickListener(v -> showAddDummyDataConfirmationDialog());
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.profile);
@@ -43,5 +56,29 @@ public class ProfileActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
+
+    private void showAddDummyDataConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Add Sample Data")
+                .setMessage("This will add sample items to your inventory. Continue?")
+                .setPositiveButton("Add", (dialog, which) -> {
+                    dbHandler.insertDummyData();
+                    Toast.makeText(this, "Sample data added", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showDeleteConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete All Items")
+                .setMessage("Are you sure you want to delete all items and waste log entries? This action cannot be undone.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    dbHandler.deleteAllItems();
+                    Toast.makeText(this, "All items and waste log cleared", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }
