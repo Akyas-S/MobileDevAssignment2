@@ -5,8 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
@@ -54,6 +56,7 @@ public class AddItem extends AppCompatActivity {
     private boolean scanning = true;
     private OkHttpClient httpClient = new OkHttpClient();
     private BarcodeHandler barcodeHandler;
+    private DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,13 @@ public class AddItem extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        EditText nameEditText = findViewById(R.id.idEdtItemName);
+        EditText barcodeEditText = findViewById(R.id.idEdtBarcode);
+        EditText categoryEditText = findViewById(R.id.idEdtCategory);
+        EditText quantityEditText = findViewById(R.id.idEdtQuantity);
+        EditText expiryEditText = findViewById(R.id.idExpiryDate);
+        Button addButton = findViewById(R.id.idBtnAddItem);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.additem);
@@ -112,6 +122,40 @@ public class AddItem extends AppCompatActivity {
         cameraExecutor = Executors.newSingleThreadExecutor();
         barcodeScanner = BarcodeScanning.getClient();
         barcodeHandler = new BarcodeHandler();
+        dbHandler = new DBHandler(this);
+
+        // Inside onCreate(), after initializing dbHandle
+
+        addButton.setOnClickListener(v -> {
+            String name = nameEditText.getText().toString().trim();
+            String barcode = barcodeEditText.getText().toString().trim();
+            String category = categoryEditText.getText().toString().trim();
+            String quantityStr = quantityEditText.getText().toString().trim();
+            String expiry = expiryEditText.getText().toString().trim();
+
+            if (name.isEmpty() || barcode.isEmpty() || category.isEmpty() || quantityStr.isEmpty() || expiry.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int quantity;
+            try {
+                quantity = Integer.parseInt(quantityStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Quantity must be a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            dbHandler.addNewItem(name, barcode, category, quantity, expiry);
+            Toast.makeText(this, "Item added!", Toast.LENGTH_SHORT).show();
+
+            // Optionally clear fields or finish activity
+            nameEditText.setText("");
+            barcodeEditText.setText("");
+            categoryEditText.setText("");
+            quantityEditText.setText("");
+            expiryEditText.setText("");
+        });
     }
 
     @OptIn(markerClass = ExperimentalGetImage.class)

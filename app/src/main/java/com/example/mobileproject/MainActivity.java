@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
