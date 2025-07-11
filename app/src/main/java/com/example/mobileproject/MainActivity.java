@@ -2,12 +2,14 @@ package com.example.mobileproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,7 +19,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ItemModel> itemModelArrayList;
     private DBHandler dbHandler;
-    private mainAdapter itemRVAdapter;
+    private mainAdapter adapter;
+    private RecyclerView recyclerView;
+
+    private Button button;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,17 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        dbHandler = new DBHandler(this);
+        itemModelArrayList = new ArrayList<>();
+
+        adapter = new mainAdapter(itemModelArrayList, this);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        itemModelArrayList = dbHandler.readItems();
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
 
