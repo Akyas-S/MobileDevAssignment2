@@ -126,7 +126,6 @@ public class AddItem extends AppCompatActivity {
         barcodeScanner = BarcodeScanning.getClient();
         barcodeHandler = new BarcodeHandler();
 
-        // Inside onCreate(), after initializing dbHandle
 
         addButton.setOnClickListener(v -> {
             String name = nameEditText.getText().toString().trim();
@@ -164,6 +163,7 @@ public class AddItem extends AppCompatActivity {
         });
     }
 
+
     @OptIn(markerClass = ExperimentalGetImage.class)
     private void startCamera() {
         PreviewView previewView = findViewById(R.id.previewView);
@@ -182,7 +182,6 @@ public class AddItem extends AppCompatActivity {
             }
         }, ContextCompat.getMainExecutor(this));
     }
-
     @ExperimentalGetImage
     private void processImageProxy(ImageProxy imageProxy) {
         if (!scanning) {
