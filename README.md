@@ -30,7 +30,6 @@ An Android application designed to help users manage their food inventory, track
 
 - Android (Java)
 - Google ML Kit for barcode scanning
-- Firebase Database
-- Google Gemini AI API for recipe suggestions
+- Google Gemini AI for recipe suggestions
 - Material Design for UI components
 
